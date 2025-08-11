@@ -1,3 +1,5 @@
+### Xsum-FlanT5
+
 This project focuses on summarizing news articles using the google/flan-t5-large model and the XSum dataset. To optimize the process and reduce the need for computational resources, the model was fine-tuned using the innovative Parameter-Efficient Fine-Tuning (PEFT) approach with the LoRA technique. Due to resource constraints, the fine-tuning process was conducted on a subset of 10,000 samples from the XSum training set.
 
 The final output of the project includes generated summaries for the test data, which are stored in a pandas DataFrame.
