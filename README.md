@@ -1,3 +1,4 @@
+[README.md](https://github.com/user-attachments/files/28556664/README.md)
 <div align="center">
 
 # Xsum-FlanT5
@@ -7,22 +8,22 @@
 <img src="https://img.shields.io/badge/Python-3776AB?style=flat-square&logo=python&logoColor=white"/>
 <img src="https://img.shields.io/badge/Hugging%20Face-FFD21E?style=flat-square&logo=huggingface&logoColor=black"/>
 <img src="https://img.shields.io/badge/PEFT%20%C2%B7%20LoRA-444?style=flat-square"/>
-<img src="https://img.shields.io/badge/Model-google%2Fflan--t5--large-blue?style=flat-square"/>
+<img src="https://img.shields.io/badge/Model-google%2Fflan--t5--base-blue?style=flat-square"/>
 <img src="https://img.shields.io/badge/Dataset-XSum-orange?style=flat-square"/>
 
 </div>
 
-> Fine-tuning **`google/flan-t5-large`** for **extreme (single-sentence) abstractive summarization** on the **XSum** news dataset — using **Parameter-Efficient Fine-Tuning (PEFT)** with **LoRA** to cut compute and memory cost dramatically while adapting a large model on modest hardware.
+> Fine-tuning **FLAN-T5** (default `google/flan-t5-base`, configurable up to `flan-t5-large`) for **extreme (single-sentence) abstractive summarization** on the **XSum** news dataset — using **Parameter-Efficient Fine-Tuning (PEFT)** with **LoRA** to cut compute and memory cost dramatically while adapting a strong model on modest hardware.
 
 ---
 
 ## The idea
 
-XSum is an *extreme summarization* benchmark: each article is condensed into a single, highly abstractive sentence. Full fine-tuning of a `flan-t5-large` model is expensive, so this project instead trains only a small set of **low-rank adapter matrices (LoRA)** while keeping the base weights frozen. The result: a fraction of the trainable parameters, a fraction of the memory, and a model that still adapts to the summarization task.
+XSum is an *extreme summarization* benchmark: each article is condensed into a single, highly abstractive sentence. Full fine-tuning is expensive, so this project instead trains only a small set of **low-rank adapter matrices (LoRA)** while keeping the base weights frozen. The result: a fraction of the trainable parameters, a fraction of the memory, and a model that still adapts to the summarization task.
 
 | Without LoRA | With LoRA (this project) |
 | --- | --- |
-| Update **all** ~780M parameters | Update only small **low-rank adapters** |
+| Update **all** base parameters | Update only small **low-rank adapters** (<1% of params) |
 | High GPU memory | Fits on constrained hardware |
 | Slow, costly | Fast, cheap to train |
 
@@ -32,7 +33,7 @@ XSum is an *extreme summarization* benchmark: each article is condensed into a s
 
 | Component | Choice |
 | --- | --- |
-| **Base model** | `google/flan-t5-large` |
+| **Base model** | `google/flan-t5-base` (set `MODEL_ID` to scale up) |
 | **Dataset** | XSum (news articles → one-sentence summaries) |
 | **Fine-tuning** | PEFT + LoRA (base weights frozen) |
 | **Training subset** | 10,000 samples from XSum train |
@@ -85,7 +86,7 @@ Then open the notebook and run the cells to fine-tune the adapters and generate 
 
 ## Possible next steps
 
-- [ ] Report **ROUGE-1/2/L** to quantify the base vs. LoRA-tuned gain
+- [x] Report **ROUGE-1/2/L** on a held-out test subset
 - [ ] Scale to the full XSum training set
 - [ ] Compare LoRA ranks / target modules
 - [ ] Push the adapter to the Hugging Face Hub for one-line reuse
